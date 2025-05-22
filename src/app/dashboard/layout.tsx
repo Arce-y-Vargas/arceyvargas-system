@@ -1,9 +1,9 @@
 "use client";
 
-import { DashboardSidebar } from "@/layouts/Sidebar";
-import { DashboardHeader } from "@/layouts/Header";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { ThemeProvider } from "@/components/theme-provider";
+import { DashboardSidebar } from "../../layouts/Sidebar";
+import { DashboardHeader } from "../../layouts/Header";
+import { SidebarProvider, SidebarInset } from "../../components/ui/sidebar";
+import { ThemeProvider } from "../../components/theme-provider";
 
 export default function RootLayout({
   children,

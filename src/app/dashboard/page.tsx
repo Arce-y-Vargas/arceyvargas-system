@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { useEffect } from "react";
-import Dashboard from "@/components/dashboard/Dashboard";
-import { Wrapper } from "@/components/utils/Wrapper";
+import Dashboard from "../../components/dashboard/Dashboard";
+import { Wrapper } from "../../components/utils/Wrapper";
 
 const Home = () => {
   const router = useRouter();
