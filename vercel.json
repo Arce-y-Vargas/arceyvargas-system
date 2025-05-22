@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm install --legacy-peer-deps && npm run build || exit 0",
+  "buildCommand": "npm install --legacy-peer-deps && npm run build",
   "build": {
     "env": {
       "NEXT_PUBLIC_IGNORE_BUILD_WARNINGS": "true"
