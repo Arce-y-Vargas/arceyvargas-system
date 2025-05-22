@@ -1,7 +1,7 @@
 "use client";
 
-import { DashboardHeader } from "@/layouts/Header";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { DashboardHeader } from "../../layouts/Header";
+import { SidebarProvider } from "../../components/ui/sidebar";
 
 export default function RootLayout({
   children,

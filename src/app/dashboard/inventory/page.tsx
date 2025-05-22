@@ -1,7 +1,7 @@
 "use client";
 
-import { Wrapper } from "@/components/utils/Wrapper";
-import { InventoryTable } from "@/components/dashboard/inventory/InventoryTable";
+import { Wrapper } from "../../../components/utils/Wrapper";
+import { InventoryTable } from "../../../components/dashboard/inventory/InventoryTable";
 
 export default function InventoryPage() {
   return (
