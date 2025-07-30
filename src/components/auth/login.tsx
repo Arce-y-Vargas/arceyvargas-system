@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/auth";
+import { sanitizeEmail, sanitizeInput } from "@/lib/sanitize";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,8 +29,17 @@ export function Login() {
     e.preventDefault();
     setError("");
 
+    // Sanitize inputs before authentication
+    const sanitizedEmail = sanitizeEmail(email);
+    const sanitizedPassword = sanitizeInput(password);
+
+    if (!sanitizedEmail || !sanitizedPassword) {
+      setError("Please provide valid email and password.");
+      return;
+    }
+
     try {
-      await login(email, password);
+      await login(sanitizedEmail, sanitizedPassword);
       router.push("/dashboard");
     } catch (err) {
       setError("Invalid email or password.");
