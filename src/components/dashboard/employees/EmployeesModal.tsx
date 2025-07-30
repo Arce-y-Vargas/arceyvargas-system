@@ -4,6 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import { addEmployee, getEmployees } from "@/lib/employees";
+import { sanitizeInput, sanitizeNumber } from "@/lib/sanitize";
 import { X } from "lucide-react";
 import {
   Dialog,
@@ -79,8 +80,13 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let { id, value } = e.target;
 
+    // Sanitize input based on field type
     if (id === "cedula") {
       value = formatCedula(value);
+    } else if (id === "salario") {
+      value = sanitizeNumber(value).toString();
+    } else {
+      value = sanitizeInput(value);
     }
 
     setFormData({ ...formData, [id]: value });
