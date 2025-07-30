@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏢 Sistema de Gestión Empresarial - Arce & Vargas
 
-## Getting Started
+Sistema integral de gestión empresarial desarrollado con Next.js, Firebase y TypeScript.
 
-First, run the development server:
+## 🚀 Características
+
+- **👥 Gestión de Empleados**: Perfiles, salarios, departamentos
+- **💰 Nómina**: Cálculo automático de planillas y recibos
+- **🏖️ Vacaciones**: Solicitudes y aprobaciones
+- **⏰ Horas Extra**: Registro y cálculos
+- **📦 Inventario**: Control de existencias
+- **🏗️ Proyectos**: Gestión con fechas y estados
+- **💼 Cotizaciones**: Creación y seguimiento
+- **🧾 Facturas**: Emisión y control de pagos
+- **📊 Reportes**: Analytics y exportación
+- **🤖 Asistente IA**: Ayuda contextual inteligente
+
+## ⚡ Configuración Rápida
+
+### 1. Instalación
+
+```bash
+git clone [repository-url]
+cd arceyvargas
+npm install
+
+### 2. Configuración de Variables de Entorno
+
+```bash
+cp .env.example .env.local
+```
+
+Edita `.env.local` con tus credenciales:
+
+```env
+# Firebase Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY=tu_api_key_firebase
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=tu_proyecto.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=tu_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=tu_proyecto.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=tu_measurement_id
+
+# OpenAI para Asistente IA (Opcional)
+OPENAI_API_KEY=sk-tu_openai_api_key
+```
+
+### 3. Configuración de Firebase
+
+1. Crea un proyecto en [Firebase Console](https://console.firebase.google.com/)
+2. Habilita Authentication (Email/Password)
+3. Crea base de datos Firestore
+4. Configura las reglas de seguridad:
+
+```bash
+firebase login
+firebase init firestore
+firebase deploy --only firestore:rules
+```
+
+### 4. Ejecutar el Proyecto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤖 Chatbot Integrado (Sin IA Externa)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El sistema incluye un **chatbot inteligente** que funciona **sin necesidad de APIs externas**.
 
-## Learn More
+### ✨ **Características**
+- ⚡ **Respuestas instantáneas** - Sin demoras de red
+- 📚 **Base de conocimiento completa** - Más de 20 preguntas predefinidas
+- 🎯 **Reconocimiento inteligente** - Entiende variaciones de preguntas
+- 🔧 **Siempre disponible** - No depende de servicios externos
 
-To learn more about Next.js, take a look at the following resources:
+### 📝 **Ejemplos de Preguntas**
+- **"¿Cómo agregar un empleado?"** - Guía paso a paso
+- **"¿Cómo crear un proyecto?"** - Proceso completo
+- **"¿Cómo generar reportes?"** - Exportación de datos
+- **"¿Qué módulos hay?"** - Lista de funcionalidades
+- **"¿Cómo solicitar vacaciones?"** - Proceso de solicitud
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🚀 **Uso**
+1. Ve al dashboard principal
+2. Haz clic en "Asistente IA"
+3. Escribe tu pregunta
+4. ¡Recibe respuesta instantánea!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ver [`CHATBOT_EXAMPLES.md`](./CHATBOT_EXAMPLES.md) para lista completa de preguntas.
 
-## Deploy on Vercel
+## 🔧 Tecnologías
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes
+- **Base de Datos**: Firebase Firestore
+- **Autenticación**: Firebase Auth  
+- **Chatbot**: Sistema de respuestas predefinidas (sin IA externa)
+- **UI**: shadcn/ui, Lucide Icons
+- **Exportación**: jsPDF, ExcelJS
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📂 Estructura del Proyecto
+
+```
+src/
+├── app/                 # App Router (Next.js 13+)
+│   ├── api/chat/       # Endpoint del asistente IA
+│   ├── dashboard/      # Páginas del sistema
+│   └── auth/           # Autenticación
+├── components/         # Componentes React
+│   ├── dashboard/      # Módulos del sistema
+│   └── ui/             # Componentes UI base
+├── lib/                # Utilidades y servicios
+└── hooks/              # Custom hooks
+```
+
+## 🚀 Deploy
+
+### Vercel (Recomendado)
+```bash
+vercel --prod
+```
+
+### Variables de Entorno en Producción
+Configura las mismas variables del `.env.local` en tu plataforma de deploy.
+
+## 📝 Licencia
+
+Proyecto propietario - Arce & Vargas
