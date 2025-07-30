@@ -37,7 +37,18 @@ export default function Dashboard() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
-      content: "¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?",
+      content: `¡Hola! Soy el asistente del sistema Arce & Vargas.
+
+Pregúntame cosas como:
+• "¿Cómo agregar un empleado?"
+• "¿Cómo crear un proyecto?"
+• "¿Cómo generar reportes?"
+• "¿Qué es nómina?"
+• "¿Cómo solicitar vacaciones?"
+• "¿Cómo crear una factura?"
+• "¿Cómo navegar el sistema?"
+
+También puedes escribir "ayuda general" para más información.`,
       role: "assistant",
       timestamp: new Date(),
     },
@@ -113,14 +124,15 @@ export default function Dashboard() {
         body: JSON.stringify({ question }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        throw new Error(data.error || "Error en la API");
+        const errorText = await res.text();
+        console.error("Error HTTP:", res.status, errorText);
+        throw new Error(`Error ${res.status}: ${errorText}`);
       }
 
+      const data = await res.json();
       console.log("✅ Respuesta recibida:", data);
-      return data.response || "No hay respuesta.";
+      return data.response || "No pude generar una respuesta en este momento.";
     } catch (err: any) {
       console.error("❌ Error en la API:", err);
       setError(err.message || "Error procesando la solicitud.");
