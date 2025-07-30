@@ -80,14 +80,6 @@ export default function EmployeesTable() {
   const [departmentFilter, setDepartmentFilter] = useState("todos");
   const [statusFilter, setStatusFilter] = useState("todos");
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
-
-  useEffect(() => {
-    filterEmployees();
-  }, [employees, searchQuery, departmentFilter, statusFilter, filterEmployees]);
-
   const fetchEmployees = async () => {
     setIsLoading(true);
     try {
@@ -132,6 +124,14 @@ export default function EmployeesTable() {
 
     setFilteredEmployees(filtered);
   }, [employees, searchQuery, departmentFilter, statusFilter]);
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  useEffect(() => {
+    filterEmployees();
+  }, [employees, searchQuery, departmentFilter, statusFilter, filterEmployees]);
 
   const handleEmployeeUpdated = async () => {
     await fetchEmployees();

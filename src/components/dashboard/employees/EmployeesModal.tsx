@@ -64,7 +64,7 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
+    let { id, value } = e.target;
 
     // Sanitize input based on field type
     if (id === "cedula") {
