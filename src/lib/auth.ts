@@ -9,12 +9,22 @@ export const login = async (email: string, password: string) => {
   );
   const token = await userCredential.user.getIdToken();
 
-  document.cookie = `authToken=${token}; path=/; max-age=3600; httpOnly; secure; sameSite=strict`;
+  const isProduction = process.env.NODE_ENV === 'production';
+  const cookieFlags = isProduction 
+    ? 'secure; sameSite=strict' 
+    : 'sameSite=lax';
+  
+  document.cookie = `authToken=${token}; path=/; max-age=3600; ${cookieFlags}`;
 
   return userCredential.user;
 };
 
 export const logout = async () => {
-  document.cookie = "authToken=; path=/; max-age=0";
+  const isProduction = process.env.NODE_ENV === 'production';
+  const cookieFlags = isProduction 
+    ? 'secure; sameSite=strict' 
+    : 'sameSite=lax';
+  
+  document.cookie = `authToken=; path=/; max-age=0; ${cookieFlags}`;
   await signOut(auth);
 };
