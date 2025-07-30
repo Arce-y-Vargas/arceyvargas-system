@@ -106,10 +106,6 @@ export default function InvoicesTable() {
     }
   };
 
-  useEffect(() => {
-    filterInvoices();
-  }, [invoices, searchQuery, projectFilter, statusFilter, categoryFilter, filterInvoices]);
-
   const filterInvoices = useCallback(() => {
     let filtered = [...invoices];
 
@@ -148,6 +144,10 @@ export default function InvoicesTable() {
 
     setFilteredInvoices(filtered);
   }, [invoices, searchQuery, projectFilter, statusFilter, categoryFilter]);
+
+  useEffect(() => {
+    filterInvoices();
+  }, [invoices, searchQuery, projectFilter, statusFilter, categoryFilter, filterInvoices]);
 
   const handleInvoiceUpdated = async () => {
     await fetchInvoices();

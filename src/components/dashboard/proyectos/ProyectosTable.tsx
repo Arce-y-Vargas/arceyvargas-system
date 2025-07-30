@@ -64,10 +64,6 @@ export default function ProyectosTable() {
     fetchProyectos();
   }, []);
 
-  useEffect(() => {
-    filterProyectos();
-  }, [proyectos, searchQuery, estadoFilter, filterProyectos]);
-
   const fetchProyectos = async () => {
     setIsLoading(true);
     try {
@@ -102,6 +98,10 @@ export default function ProyectosTable() {
 
     setFilteredProyectos(filtered);
   }, [proyectos, searchQuery, estadoFilter]);
+
+  useEffect(() => {
+    filterProyectos();
+  }, [proyectos, searchQuery, estadoFilter, filterProyectos]);
 
   const handleProyectoUpdated = async () => {
     await fetchProyectos();

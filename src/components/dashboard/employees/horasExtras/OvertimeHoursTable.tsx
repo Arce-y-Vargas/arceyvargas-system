@@ -66,10 +66,6 @@ export default function OvertimeHoursTable() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    filterRecords();
-  }, [overtimeRecords, searchQuery, departmentFilter, statusFilter, employees, filterRecords]);
-
   const fetchData = async () => {
     setIsLoading(true);
     try {
@@ -125,6 +121,10 @@ export default function OvertimeHoursTable() {
 
     setFilteredRecords(filtered);
   }, [overtimeRecords, searchQuery, departmentFilter, statusFilter, employees]);
+
+  useEffect(() => {
+    filterRecords();
+  }, [overtimeRecords, searchQuery, departmentFilter, statusFilter, employees, filterRecords]);
 
   const handleRecordUpdated = async () => {
     await fetchData();

@@ -59,10 +59,6 @@ export default function CategoriasTable() {
     fetchCategorias();
   }, []);
 
-  useEffect(() => {
-    filterCategorias();
-  }, [categorias, searchQuery, filterCategorias]);
-
   const fetchCategorias = async () => {
     setIsLoading(true);
     try {
@@ -91,6 +87,10 @@ export default function CategoriasTable() {
 
     setFilteredCategorias(filtered);
   }, [categorias, searchQuery]);
+
+  useEffect(() => {
+    filterCategorias();
+  }, [categorias, searchQuery, filterCategorias]);
 
   const handleCategoriaUpdated = async () => {
     await fetchCategorias();

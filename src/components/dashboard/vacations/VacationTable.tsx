@@ -92,10 +92,6 @@ export function VacationTable() {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    filterVacations();
-  }, [vacations, searchQuery, statusFilter, filterVacations]);
-
   const fetchVacations = async (cedula: string) => {
     setLoading(true);
     try {
@@ -134,6 +130,10 @@ export function VacationTable() {
 
     setFilteredVacations(filtered);
   }, [vacations, searchQuery, statusFilter]);
+
+  useEffect(() => {
+    filterVacations();
+  }, [vacations, searchQuery, statusFilter, filterVacations]);
 
   const handleDelete = async (vacationId: string) => {
     setDeleteLoading(vacationId);

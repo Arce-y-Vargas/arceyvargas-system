@@ -61,10 +61,6 @@ export function InventoryTable() {
     loadInventory();
   }, []);
 
-  useEffect(() => {
-    filterInventory();
-  }, [inventory, searchQuery, categoryFilter, statusFilter, filterInventory]);
-
   const loadInventory = async () => {
     setIsLoading(true);
     try {
@@ -100,6 +96,10 @@ export function InventoryTable() {
 
     setFilteredInventory(filtered);
   }, [inventory, searchQuery, categoryFilter, statusFilter]);
+
+  useEffect(() => {
+    filterInventory();
+  }, [inventory, searchQuery, categoryFilter, statusFilter, filterInventory]);
 
   const handleEdit = (item: InventoryItem) => {
     setSelectedItem(item);

@@ -82,10 +82,6 @@ export default function VacationApprovalTable() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    filterVacations();
-  }, [vacations, searchQuery, statusFilter, departmentFilter, employees, filterVacations]);
-
   const fetchData = async () => {
     setIsLoading(true);
     try {
@@ -150,6 +146,10 @@ export default function VacationApprovalTable() {
 
     setFilteredVacations(filtered);
   }, [vacations, searchQuery, statusFilter, departmentFilter, employees]);
+
+  useEffect(() => {
+    filterVacations();
+  }, [vacations, searchQuery, statusFilter, departmentFilter, employees, filterVacations]);
 
   const handleViewDetails = (vacation: Vacation) => {
     setSelectedVacation(vacation);

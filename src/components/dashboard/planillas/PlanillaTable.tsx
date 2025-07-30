@@ -75,10 +75,6 @@ export function PlanillaTable() {
     fetchPlanillas();
   }, []);
 
-  useEffect(() => {
-    filterPlanillas();
-  }, [planillas, searchQuery, filterPlanillas]);
-
   const fetchPlanillas = async () => {
     setLoading(true);
     try {
@@ -105,6 +101,10 @@ export function PlanillaTable() {
 
     setFilteredPlanillas(filtered);
   }, [planillas, searchQuery]);
+
+  useEffect(() => {
+    filterPlanillas();
+  }, [planillas, searchQuery, filterPlanillas]);
 
   const handleDelete = async (cedula: string) => {
     setDeleteLoading(cedula);

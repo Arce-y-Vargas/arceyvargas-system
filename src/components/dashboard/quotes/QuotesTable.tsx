@@ -73,10 +73,6 @@ export default function QuotesTable() {
     fetchQuotes();
   }, []);
 
-  useEffect(() => {
-    filterQuotes();
-  }, [quotes, searchQuery, statusFilter, clientFilter, filterQuotes]);
-
   const fetchQuotes = async () => {
     setIsLoading(true);
     try {
@@ -113,6 +109,10 @@ export default function QuotesTable() {
 
     setFilteredQuotes(filtered);
   }, [quotes, searchQuery, statusFilter, clientFilter]);
+
+  useEffect(() => {
+    filterQuotes();
+  }, [quotes, searchQuery, statusFilter, clientFilter, filterQuotes]);
 
   const handleEdit = (quote: Quote) => {
     setEditingQuote(quote);
