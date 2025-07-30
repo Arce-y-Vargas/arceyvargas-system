@@ -140,6 +140,12 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
         },
         formData.password
       );
+      
+      toast({
+        title: "Éxito",
+        description: `Empleado ${formData.nombre} agregado correctamente.`,
+      });
+      
       onEmployeeAdded();
       onClose();
     } catch (error) {
@@ -162,15 +168,6 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
           <DialogDescription>
             Completa los datos del empleado.
           </DialogDescription>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Cerrar</span>
-          </Button>
         </DialogHeader>
 
         <form className="grid gap-4 py-2" onSubmit={handleSubmit}>

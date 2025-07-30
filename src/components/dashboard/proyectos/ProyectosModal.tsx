@@ -76,6 +76,11 @@ export default function ProyectosModal({
         throw new Error("Por favor complete todos los campos requeridos.");
       }
 
+      // Validación de fechas
+      if (formData.fechaFin && formData.fechaFin < formData.fechaInicio) {
+        throw new Error("La fecha de finalización no puede ser anterior a la fecha de inicio.");
+      }
+
       const newProyecto = {
         id: uuidv4(),
         ...formData,
@@ -116,14 +121,6 @@ export default function ProyectosModal({
             Complete los detalles del proyecto. Todos los campos marcados con *
             son obligatorios.
           </DialogDescription>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
 
         <form onSubmit={handleSubmit}>

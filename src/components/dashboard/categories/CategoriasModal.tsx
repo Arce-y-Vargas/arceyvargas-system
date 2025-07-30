@@ -116,14 +116,6 @@ export default function CategoriasModal({
             Complete los detalles de la categoría. Todos los campos marcados con
             * son obligatorios.
           </DialogDescription>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
 
         <form onSubmit={handleSubmit}>

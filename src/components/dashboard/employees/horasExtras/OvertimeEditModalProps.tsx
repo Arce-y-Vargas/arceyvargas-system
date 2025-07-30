@@ -100,16 +100,8 @@ export default function OvertimeEditModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold flex items-center justify-between">
-            <span>Editar Horas Extras</span>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6"
-              onClick={onClose}
-            >
-              <X className="h-4 w-4" />
-            </Button>
+          <DialogTitle className="text-xl font-bold">
+            Editar Horas Extras
           </DialogTitle>
         </DialogHeader>
 

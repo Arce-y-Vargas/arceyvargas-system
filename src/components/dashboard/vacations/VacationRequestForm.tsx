@@ -212,7 +212,7 @@ export function VacationRequestForm() {
                     setFormData({ ...formData, startDate: e.target.value })
                   }
                   required
-                  className="text-black [&::-webkit-calendar-picker-indicator]:invert h-10"
+                  className="[&::-webkit-calendar-picker-indicator]:dark:invert [&::-webkit-calendar-picker-indicator]:filter h-10"
                   min={localToday}
                 />
               </div>
@@ -226,7 +226,7 @@ export function VacationRequestForm() {
                     setFormData({ ...formData, endDate: e.target.value })
                   }
                   required
-                  className="text-black [&::-webkit-calendar-picker-indicator]:invert h-10"
+                  className="[&::-webkit-calendar-picker-indicator]:dark:invert [&::-webkit-calendar-picker-indicator]:filter h-10"
                   min={localToday}
                 />
               </div>

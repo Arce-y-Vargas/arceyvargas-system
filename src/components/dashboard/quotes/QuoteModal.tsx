@@ -131,15 +131,6 @@ const QuoteModal: React.FC<QuoteModalProps> = ({
           <DialogDescription>
             Completa los datos de la cotización.
           </DialogDescription>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Cerrar</span>
-          </Button>
         </DialogHeader>
 
         <form className="grid gap-4 py-2" onSubmit={handleSubmit}>
