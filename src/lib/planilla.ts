@@ -77,7 +77,7 @@ export const getPlanillaByCedula = async (
 
 export const updatePlanilla = async (planilla: Planilla) => {
   const ref = doc(db, collectionName, planilla.Cédula);
-  const { id, ...data } = planilla;
+  const { ...data } = planilla;
   await updateDoc(ref, data);
 };
 

@@ -43,12 +43,15 @@ interface QuoteEditProps {
   quote: Quote | null;
 }
 
-const statusColors: Record<string, string> = {
-  Pendiente: "bg-yellow-500 text-black",
-  Aprobada: "bg-green-500 text-white",
-  Rechazada: "bg-red-500 text-white",
-  "En proceso": "bg-blue-500 text-white",
-  Completada: "bg-purple-500 text-white",
+const getStatusColor = (status: string): string => {
+  switch (status) {
+    case "Pendiente": return "bg-yellow-500 text-black";
+    case "Aprobada": return "bg-green-500 text-white";
+    case "Rechazada": return "bg-red-500 text-white";
+    case "En proceso": return "bg-blue-500 text-white";
+    case "Completada": return "bg-purple-500 text-white";
+    default: return "bg-gray-500";
+  }
 };
 
 const QuoteEdit: React.FC<QuoteEditProps> = ({
@@ -249,9 +252,7 @@ const QuoteEdit: React.FC<QuoteEditProps> = ({
                   {formData.status && (
                     <div className="flex items-center">
                       <Badge
-                        className={
-                          statusColors[formData.status] || "bg-gray-500"
-                        }
+                        className={getStatusColor(formData.status)}
                       >
                         {formData.status}
                       </Badge>
@@ -260,9 +261,9 @@ const QuoteEdit: React.FC<QuoteEditProps> = ({
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {Object.keys(statusColors).map((status) => (
+                {["Pendiente", "Aprobada", "Rechazada", "En proceso", "Completada"].map((status) => (
                   <SelectItem key={status} value={status}>
-                    <Badge className={statusColors[status]}>{status}</Badge>
+                    <Badge className={getStatusColor(status)}>{status}</Badge>
                   </SelectItem>
                 ))}
               </SelectContent>

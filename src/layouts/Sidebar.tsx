@@ -241,7 +241,7 @@ export function DashboardSidebar() {
       const employeeData = employeeSnap.data();
       const rawPosicion = employeeData.posicion || "operators";
 
-      const formattedPosicion = accessByRole[rawPosicion]
+      const formattedPosicion = Object.prototype.hasOwnProperty.call(accessByRole, rawPosicion)
         ? (rawPosicion as keyof typeof accessByRole)
         : "operators";
 

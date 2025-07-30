@@ -11,13 +11,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import Link from "next/link";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -41,7 +39,7 @@ export function Login() {
     try {
       await login(sanitizedEmail, sanitizedPassword);
       router.push("/dashboard");
-    } catch (err) {
+    } catch {
       setError("Invalid email or password.");
     }
   };

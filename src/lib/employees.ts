@@ -56,8 +56,8 @@ export const addEmployee = async (empleado: Empleado, password: string) => {
     });
 
     return empleado;
-  } catch (error: any) {
-    if (error.code === "auth/email-already-in-use") {
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === "auth/email-already-in-use") {
       throw new Error("Este usuario ya está registrado.");
     }
     throw error;

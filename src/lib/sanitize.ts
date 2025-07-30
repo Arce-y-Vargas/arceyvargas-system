@@ -35,7 +35,9 @@ export const sanitizeInput = (input: string): string => {
         "'": '&#x27;',
         '&': '&amp;',
       };
-      return map[match] || match;
+      return Object.prototype.hasOwnProperty.call(map, match) 
+        ? map[match as keyof typeof map] 
+        : match;
     });
 };
 

@@ -5,7 +5,6 @@ import type React from "react";
 import { useState } from "react";
 import { addEmployee, getEmployees } from "@/lib/employees";
 import { sanitizeInput, sanitizeNumber } from "@/lib/sanitize";
-import { X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +16,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Toaster } from "@/components/ui/toaster";
 import {
   Select,
   SelectContent,
@@ -33,15 +31,6 @@ interface EmployeesModalProps {
   onEmployeeAdded: () => void;
 }
 
-interface Empleado {
-  cedula: string;
-  nombre: string;
-  posicion: string;
-  departamento: string;
-  fechaInicio: string;
-  salario: number;
-  status: string;
-}
 
 const EmployeesModal: React.FC<EmployeesModalProps> = ({
   isOpen,
@@ -62,9 +51,6 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const localToday = today.toISOString().split("T")[0];
 
   const formatCedula = (value: string) => {
     const cleaned = value.replace(/\D/g, "");
@@ -78,7 +64,7 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { id, value } = e.target;
+    const { id, value } = e.target;
 
     // Sanitize input based on field type
     if (id === "cedula") {
@@ -128,7 +114,7 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
         }));
         return;
       }
-    } catch (err) {
+    } catch {
       toast({
         title: "Error al validar cédula",
         description: "No se pudo verificar si la cédula ya existe.",

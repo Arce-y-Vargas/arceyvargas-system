@@ -28,6 +28,13 @@ import {
 import { getEmployees } from "@/lib/employees";
 import { Loader2 } from "lucide-react";
 
+interface Employee {
+  cedula: string;
+  nombre: string;
+  salario: number;
+  status: string;
+}
+
 interface PlanillaModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -40,7 +47,7 @@ export function PlanillaModal({
   onSuccess,
 }: PlanillaModalProps) {
   const [loading, setLoading] = useState(false);
-  const [employees, setEmployees] = useState<any[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [loadingEmployees, setLoadingEmployees] = useState(false);
   const [formData, setFormData] = useState<PlanillaUI>({
     empleado: "",
@@ -180,12 +187,6 @@ export function PlanillaModal({
     }
   };
 
-  const formatCurrency = (value: number) => {
-    return `₡${value.toLocaleString("es-CR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

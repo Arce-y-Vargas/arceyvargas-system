@@ -3,6 +3,13 @@ import { Document, Page, Text, View, PDFDownloadLink, StyleSheet } from "@react-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+interface PayrollData {
+  employeeName: string;
+  baseSalary: number;
+  deductions: number;
+  netSalary: number;
+}
+
 // Estilos para el PDF
 const styles = StyleSheet.create({
   page: { padding: 20 },
@@ -12,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 // Componente para el recibo en PDF
-const PayrollPDF = ({ data }: { data: any }) => (
+const PayrollPDF = ({ data }: { data: PayrollData }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -28,7 +35,7 @@ const PayrollPDF = ({ data }: { data: any }) => (
 
 // Componente principal
 const PayrollReceipt = () => {
-  const [payrollData, setPayrollData] = useState<any>(null);
+  const [payrollData, setPayrollData] = useState<PayrollData | null>(null);
 
   useEffect(() => {
     fetch("/api/payroll") // Endpoint de nómina

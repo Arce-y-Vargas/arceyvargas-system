@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Plus, Pencil, Trash2, Search, Filter, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,12 +47,15 @@ interface Quote {
   createdBy: string;
 }
 
-const statusColors: Record<string, string> = {
-  Pendiente: "bg-yellow-500 text-black",
-  Aprobada: "bg-green-500 text-white",
-  Rechazada: "bg-red-500 text-white",
-  "En proceso": "bg-blue-500 text-white",
-  Completada: "bg-purple-500 text-white",
+const getStatusColor = (status: string): string => {
+  switch (status) {
+    case "Pendiente": return "bg-yellow-500 text-black";
+    case "Aprobada": return "bg-green-500 text-white";
+    case "Rechazada": return "bg-red-500 text-white";
+    case "En proceso": return "bg-blue-500 text-white";
+    case "Completada": return "bg-purple-500 text-white";
+    default: return "bg-gray-500";
+  }
 };
 
 export default function QuotesTable() {
@@ -72,7 +75,7 @@ export default function QuotesTable() {
 
   useEffect(() => {
     filterQuotes();
-  }, [quotes, searchQuery, statusFilter, clientFilter]);
+  }, [quotes, searchQuery, statusFilter, clientFilter, filterQuotes]);
 
   const fetchQuotes = async () => {
     setIsLoading(true);
@@ -87,7 +90,7 @@ export default function QuotesTable() {
     }
   };
 
-  const filterQuotes = () => {
+  const filterQuotes = useCallback(() => {
     let filtered = [...quotes];
 
     if (searchQuery) {
@@ -109,7 +112,7 @@ export default function QuotesTable() {
     }
 
     setFilteredQuotes(filtered);
-  };
+  }, [quotes, searchQuery, statusFilter, clientFilter]);
 
   const handleEdit = (quote: Quote) => {
     setEditingQuote(quote);
@@ -258,7 +261,7 @@ export default function QuotesTable() {
                   <SelectItem value="todos">Todos los estados</SelectItem>
                   {statuses.map((status) => (
                     <SelectItem key={status} value={status}>
-                      <Badge className={statusColors[status] || "bg-gray-500"}>
+                      <Badge className={getStatusColor(status)}>
                         {status}
                       </Badge>
                     </SelectItem>
@@ -322,10 +325,7 @@ export default function QuotesTable() {
                       </TableCell>
                       <TableCell className="whitespace-nowrap">
                         <Badge
-                          className={
-                            statusColors[quote.status] ||
-                            "bg-gray-500 text-white"
-                          }
+                          className={getStatusColor(quote.status)}
                         >
                           {quote.status}
                         </Badge>

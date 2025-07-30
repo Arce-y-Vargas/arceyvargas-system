@@ -2,17 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import type React from "react";
-import { MessageSquare, Send, X, Home, User, Users, Calendar, Clock, Package, Receipt, Wallet, BarChart3, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
+import { MessageSquare, Send, X, User, Users, Calendar, Clock, Package, Receipt, BarChart3, TrendingUp, TrendingDown } from "lucide-react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { getEmployees } from "@/lib/employees";
@@ -133,9 +131,10 @@ También puedes escribir "ayuda general" para más información.`,
       const data = await res.json();
       console.log("✅ Respuesta recibida:", data);
       return data.response || "No pude generar una respuesta en este momento.";
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("❌ Error en la API:", err);
-      setError(err.message || "Error procesando la solicitud.");
+      const errorMessage = err instanceof Error ? err.message : "Error procesando la solicitud.";
+      setError(errorMessage);
       return null;
     }
   };

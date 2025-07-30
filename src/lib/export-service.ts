@@ -5,7 +5,7 @@ export interface ExportColumn {
   header: string;
   key: string;
   width?: number;
-  format?: (value: any) => string;
+  format?: (value: unknown) => string;
   align?: "left" | "center" | "right";
 }
 
@@ -16,13 +16,13 @@ export interface ExportConfig {
   companyName?: string;
   logoPath?: string;
   columns: ExportColumn[];
-  data: any[];
+  data: Record<string, unknown>[];
   summary?: {
     title?: string;
     calculations?: Array<{
       label: string;
       value: string | number;
-      format?: (value: any) => string;
+      format?: (value: unknown) => string;
     }>;
     groupBy?: {
       key: string;
@@ -124,9 +124,10 @@ export const exportToPDF = (config: ExportConfig): void => {
     });
   }
 
-  const columnStyles: Record<number, any> = {};
+  const columnStyles: Record<number, Record<string, unknown>> = {};
   config.columns.forEach((col, index) => {
-    columnStyles[index] = {
+    const styleKey = String(index);
+    columnStyles[Number(styleKey)] = {
       cellWidth: col.width || 25,
       halign: col.align || "left",
     };
@@ -151,7 +152,7 @@ export const exportToPDF = (config: ExportConfig): void => {
         ? 50 + config.summary.calculations.length * 5
         : 50,
     },
-    didDrawPage: (data: any) => {
+    didDrawPage: (data: { pageNumber: number; settings: { margin: { left: number } } }) => {
       doc.setFontSize(8);
       doc.setTextColor(100, 100, 100);
       doc.text(
@@ -184,18 +185,24 @@ export const exportToPDF = (config: ExportConfig): void => {
   });
 
   if (config.summary?.groupBy) {
-    const finalY = (doc as any).lastAutoTable.finalY || 200;
+    const finalY = (doc as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY || 200;
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
     doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
     doc.text(config.summary.title || "Resumen", 15, finalY + 10);
 
     const groupKey = config.summary.groupBy.key;
-    const groupSummary = config.data.reduce((acc, item) => {
-      const key = item[groupKey];
-      acc[key] = (acc[key] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const groupSummaryMap = new Map<string, number>();
+    config.data.forEach((item) => {
+      if (typeof item === 'object' && item !== null && Object.prototype.hasOwnProperty.call(item, groupKey)) {
+        const rawValue = item[groupKey as keyof typeof item];
+        const key = String(rawValue);
+        const safeKey = key.replace(/[^a-zA-Z0-9\s]/g, ''); // Sanitize key
+        const currentCount = groupSummaryMap.get(safeKey) || 0;
+        groupSummaryMap.set(safeKey, currentCount + 1);
+      }
+    });
+    const groupSummary = Object.fromEntries(groupSummaryMap);
 
     const groupData = Object.entries(groupSummary).map(([key, count]) => [
       key,

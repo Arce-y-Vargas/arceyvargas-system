@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Plus, Pencil, Trash2, Search, Filter, FileText } from "lucide-react";
 import {
   getInventoryItems,
@@ -37,12 +37,6 @@ import EditItemModal from "./EditItemModal";
 import AddItemModal from "./AddItemModal";
 import exportData, { type ExportConfig } from "@/lib/export-service";
 
-const statusColors: Record<string, string> = {
-  Disponible: "bg-green-500 text-white",
-  "Stock Bajo": "bg-orange-500 text-white",
-  Agotado: "bg-red-500 text-white",
-  Descontinuado: "bg-gray-500 text-white",
-};
 
 const categoryColors: Record<string, string> = {
   "MAQUINARIA Y EQUIPO": "bg-blue-500 text-white",
@@ -69,7 +63,7 @@ export function InventoryTable() {
 
   useEffect(() => {
     filterInventory();
-  }, [inventory, searchQuery, categoryFilter, statusFilter]);
+  }, [inventory, searchQuery, categoryFilter, statusFilter, filterInventory]);
 
   const loadInventory = async () => {
     setIsLoading(true);
@@ -84,7 +78,7 @@ export function InventoryTable() {
     }
   };
 
-  const filterInventory = () => {
+  const filterInventory = useCallback(() => {
     let filtered = [...inventory];
 
     if (searchQuery) {
@@ -105,7 +99,7 @@ export function InventoryTable() {
     }
 
     setFilteredInventory(filtered);
-  };
+  }, [inventory, searchQuery, categoryFilter, statusFilter]);
 
   const handleEdit = (item: InventoryItem) => {
     setSelectedItem(item);
@@ -126,10 +120,6 @@ export function InventoryTable() {
     loadInventory();
   };
 
-  const handleItemUpdated = () => {
-    setEditModalOpen(false);
-    loadInventory();
-  };
 
   const categories = Array.from(
     new Set(inventory.map((item) => item.category))
@@ -155,18 +145,6 @@ export function InventoryTable() {
       0
     );
 
-    // Group items by category
-    const categoryGroups = filteredInventory.reduce((acc, item) => {
-      if (!acc[item.category]) {
-        acc[item.category] = {
-          count: 0,
-          total: 0,
-        };
-      }
-      acc[item.category].count += item.quantity;
-      acc[item.category].total += item.total;
-      return acc;
-    }, {} as Record<string, { count: number; total: number }>);
 
     return {
       title: "Reporte de Inventario",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -61,7 +61,7 @@ export default function CategoriasTable() {
 
   useEffect(() => {
     filterCategorias();
-  }, [categorias, searchQuery]);
+  }, [categorias, searchQuery, filterCategorias]);
 
   const fetchCategorias = async () => {
     setIsLoading(true);
@@ -76,7 +76,7 @@ export default function CategoriasTable() {
     }
   };
 
-  const filterCategorias = () => {
+  const filterCategorias = useCallback(() => {
     let filtered = [...categorias];
 
     if (searchQuery) {
@@ -90,7 +90,7 @@ export default function CategoriasTable() {
     }
 
     setFilteredCategorias(filtered);
-  };
+  }, [categorias, searchQuery]);
 
   const handleCategoriaUpdated = async () => {
     await fetchCategorias();

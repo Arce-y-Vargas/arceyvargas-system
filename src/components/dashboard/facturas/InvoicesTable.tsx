@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Plus, Pencil, Trash2, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -106,7 +106,11 @@ export default function InvoicesTable() {
     }
   };
 
-  const filterInvoices = () => {
+  useEffect(() => {
+    filterInvoices();
+  }, [invoices, searchQuery, projectFilter, statusFilter, categoryFilter, filterInvoices]);
+
+  const filterInvoices = useCallback(() => {
     let filtered = [...invoices];
 
     if (searchQuery) {
@@ -143,7 +147,7 @@ export default function InvoicesTable() {
     }
 
     setFilteredInvoices(filtered);
-  };
+  }, [invoices, searchQuery, projectFilter, statusFilter, categoryFilter]);
 
   const handleInvoiceUpdated = async () => {
     await fetchInvoices();

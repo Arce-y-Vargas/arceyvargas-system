@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Search, Filter, ArrowLeft, Check, X, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -84,7 +84,7 @@ export default function VacationApprovalTable() {
 
   useEffect(() => {
     filterVacations();
-  }, [vacations, searchQuery, statusFilter, departmentFilter, employees]);
+  }, [vacations, searchQuery, statusFilter, departmentFilter, employees, filterVacations]);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -109,7 +109,7 @@ export default function VacationApprovalTable() {
     }
   };
 
-  const filterVacations = () => {
+  const filterVacations = useCallback(() => {
     if (!vacations.length) return;
 
     let filtered = [...vacations];
@@ -149,7 +149,7 @@ export default function VacationApprovalTable() {
     }
 
     setFilteredVacations(filtered);
-  };
+  }, [vacations, searchQuery, statusFilter, departmentFilter, employees]);
 
   const handleViewDetails = (vacation: Vacation) => {
     setSelectedVacation(vacation);

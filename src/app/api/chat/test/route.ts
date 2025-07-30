@@ -8,7 +8,7 @@ export async function GET() {
       timestamp: new Date().toISOString(),
       hasOpenAI: !!process.env.OPENAI_API_KEY
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Error en el test' },
       { status: 500 }
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       receivedData: body,
       timestamp: new Date().toISOString()
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Error en test POST' },
       { status: 500 }

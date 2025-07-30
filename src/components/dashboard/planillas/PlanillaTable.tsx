@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -77,7 +77,7 @@ export function PlanillaTable() {
 
   useEffect(() => {
     filterPlanillas();
-  }, [planillas, searchQuery]);
+  }, [planillas, searchQuery, filterPlanillas]);
 
   const fetchPlanillas = async () => {
     setLoading(true);
@@ -92,7 +92,7 @@ export function PlanillaTable() {
     }
   };
 
-  const filterPlanillas = () => {
+  const filterPlanillas = useCallback(() => {
     let filtered = [...planillas];
 
     if (searchQuery) {
@@ -104,7 +104,7 @@ export function PlanillaTable() {
     }
 
     setFilteredPlanillas(filtered);
-  };
+  }, [planillas, searchQuery]);
 
   const handleDelete = async (cedula: string) => {
     setDeleteLoading(cedula);

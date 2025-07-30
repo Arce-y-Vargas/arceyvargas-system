@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Pencil, Search, Filter, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -68,7 +68,7 @@ export default function OvertimeHoursTable() {
 
   useEffect(() => {
     filterRecords();
-  }, [overtimeRecords, searchQuery, departmentFilter, statusFilter, employees]);
+  }, [overtimeRecords, searchQuery, departmentFilter, statusFilter, employees, filterRecords]);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -88,7 +88,7 @@ export default function OvertimeHoursTable() {
     }
   };
 
-  const filterRecords = () => {
+  const filterRecords = useCallback(() => {
     if (!overtimeRecords.length || !employees.length) return;
 
     let filtered = [...overtimeRecords];
@@ -124,7 +124,7 @@ export default function OvertimeHoursTable() {
     }
 
     setFilteredRecords(filtered);
-  };
+  }, [overtimeRecords, searchQuery, departmentFilter, statusFilter, employees]);
 
   const handleRecordUpdated = async () => {
     await fetchData();

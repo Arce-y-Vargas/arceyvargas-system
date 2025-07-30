@@ -116,12 +116,6 @@ export function PlanillaEditModal({
     }
   };
 
-  const formatCurrency = (value: number) => {
-    return `₡${value.toLocaleString("es-CR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

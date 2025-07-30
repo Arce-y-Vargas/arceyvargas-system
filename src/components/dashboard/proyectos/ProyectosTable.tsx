@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Plus, Pencil, Trash2, Search, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -66,7 +66,7 @@ export default function ProyectosTable() {
 
   useEffect(() => {
     filterProyectos();
-  }, [proyectos, searchQuery, estadoFilter]);
+  }, [proyectos, searchQuery, estadoFilter, filterProyectos]);
 
   const fetchProyectos = async () => {
     setIsLoading(true);
@@ -81,7 +81,7 @@ export default function ProyectosTable() {
     }
   };
 
-  const filterProyectos = () => {
+  const filterProyectos = useCallback(() => {
     let filtered = [...proyectos];
 
     if (searchQuery) {
@@ -101,7 +101,7 @@ export default function ProyectosTable() {
     }
 
     setFilteredProyectos(filtered);
-  };
+  }, [proyectos, searchQuery, estadoFilter]);
 
   const handleProyectoUpdated = async () => {
     await fetchProyectos();

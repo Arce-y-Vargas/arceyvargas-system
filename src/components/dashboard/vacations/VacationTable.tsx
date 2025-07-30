@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getEmployeeVacations, deleteVacationRequest } from "@/lib/vacations";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -65,7 +65,7 @@ export function VacationTable() {
   const [filteredVacations, setFilteredVacations] = useState<Vacation[]>([]);
   const [loading, setLoading] = useState(true);
   const [userCedula, setUserCedula] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string | null>(null);
+  const [, setUserName] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("todos");
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
@@ -94,7 +94,7 @@ export function VacationTable() {
 
   useEffect(() => {
     filterVacations();
-  }, [vacations, searchQuery, statusFilter]);
+  }, [vacations, searchQuery, statusFilter, filterVacations]);
 
   const fetchVacations = async (cedula: string) => {
     setLoading(true);
@@ -109,7 +109,7 @@ export function VacationTable() {
     }
   };
 
-  const filterVacations = () => {
+  const filterVacations = useCallback(() => {
     let filtered = [...vacations];
 
     // Aplicar filtro de búsqueda
@@ -133,7 +133,7 @@ export function VacationTable() {
     }
 
     setFilteredVacations(filtered);
-  };
+  }, [vacations, searchQuery, statusFilter]);
 
   const handleDelete = async (vacationId: string) => {
     setDeleteLoading(vacationId);

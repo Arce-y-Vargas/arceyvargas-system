@@ -124,7 +124,9 @@ function findBestMatch(question: string): string {
     'general': KNOWLEDGE_BASE['ayuda general']
   };
   
-  return categoryResponses[bestCategory] || KNOWLEDGE_BASE['default'];
+  return Object.prototype.hasOwnProperty.call(categoryResponses, bestCategory) 
+    ? categoryResponses[bestCategory as keyof typeof categoryResponses] 
+    : KNOWLEDGE_BASE['default'];
 }
 
 export async function POST(request: NextRequest) {

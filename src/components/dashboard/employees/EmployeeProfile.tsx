@@ -3,16 +3,14 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { onAuthStateChanged, type User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -25,7 +23,6 @@ import {
   Building2,
   Calendar,
   DollarSign,
-  FileText,
   Clock,
   AlertCircle,
   Loader2,
@@ -45,7 +42,6 @@ interface EmployeeData {
 
 export default function EmployeeProfile() {
   const [employee, setEmployee] = useState<EmployeeData | null>(null);
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -116,7 +112,7 @@ export default function EmployeeProfile() {
         month: "long",
         year: "numeric",
       }).format(date);
-    } catch (e) {
+    } catch {
       return dateString;
     }
   };

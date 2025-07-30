@@ -1,14 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Plus,
   Pencil,
   Trash2,
   Search,
   Filter,
-  Clock,
-  Calendar,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -88,7 +86,7 @@ export default function EmployeesTable() {
 
   useEffect(() => {
     filterEmployees();
-  }, [employees, searchQuery, departmentFilter, statusFilter]);
+  }, [employees, searchQuery, departmentFilter, statusFilter, filterEmployees]);
 
   const fetchEmployees = async () => {
     setIsLoading(true);
@@ -103,7 +101,7 @@ export default function EmployeesTable() {
     }
   };
 
-  const filterEmployees = () => {
+  const filterEmployees = useCallback(() => {
     let filtered = [...employees];
 
     if (searchQuery) {
@@ -133,7 +131,7 @@ export default function EmployeesTable() {
     }
 
     setFilteredEmployees(filtered);
-  };
+  }, [employees, searchQuery, departmentFilter, statusFilter]);
 
   const handleEmployeeUpdated = async () => {
     await fetchEmployees();

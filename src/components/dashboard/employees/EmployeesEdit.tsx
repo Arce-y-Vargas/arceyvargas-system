@@ -60,9 +60,6 @@ const EmployeesEdit: React.FC<EmployeesEditProps> = ({
   });
   const [errores, setErrores] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const localToday = today.toISOString().split("T")[0];
 
   useEffect(() => {
     if (employee) {

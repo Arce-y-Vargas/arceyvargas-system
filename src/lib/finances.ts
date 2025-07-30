@@ -5,7 +5,6 @@ import {
   setDoc,
   getDoc,
   getDocs,
-  updateDoc,
 } from "firebase/firestore";
 
 interface Transaction {

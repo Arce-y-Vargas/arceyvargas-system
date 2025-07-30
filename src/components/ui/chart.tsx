@@ -351,8 +351,8 @@ function getPayloadConfigFromPayload(
   }
 
   return configLabelKey in config
-    ? config[configLabelKey]
-    : config[key as keyof typeof config]
+    ? config[configLabelKey as keyof ChartConfig]
+    : config[key as keyof ChartConfig]
 }
 
 export {
