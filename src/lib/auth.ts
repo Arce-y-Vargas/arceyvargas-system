@@ -9,7 +9,7 @@ export const login = async (email: string, password: string) => {
   );
   const token = await userCredential.user.getIdToken();
 
-  document.cookie = `authToken=${token}; path=/; max-age=3600`;
+  document.cookie = `authToken=${token}; path=/; max-age=3600; httpOnly; secure; sameSite=strict`;
 
   return userCredential.user;
 };
