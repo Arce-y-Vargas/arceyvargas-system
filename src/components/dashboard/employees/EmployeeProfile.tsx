@@ -297,13 +297,6 @@ export default function EmployeeProfile() {
           </CardContent>
         </TabsContent>
       </Tabs>
-
-      <CardFooter className="flex justify-between border-t p-6 mt-4">
-        <Button variant="outline">
-          <FileText className="h-4 w-4 mr-2" />
-          Descargar Información
-        </Button>
-      </CardFooter>
     </Card>
   );
 }
