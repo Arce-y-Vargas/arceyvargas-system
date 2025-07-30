@@ -106,7 +106,12 @@ export function InventoryTable() {
     setEditModalOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string | undefined) => {
+    if (!id) {
+      console.error("Error: ID del ítem no válido");
+      return;
+    }
+    
     try {
       await deleteInventoryItem(id);
       await loadInventory();
@@ -325,8 +330,8 @@ export function InventoryTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredInventory.map((item) => (
-                    <TableRow key={item.id}>
+                  {filteredInventory.map((item, index) => (
+                    <TableRow key={item.id || `item-${index}`}>
                       <TableCell className="font-medium max-w-[150px] truncate">
                         {item.name}
                       </TableCell>
@@ -358,13 +363,15 @@ export function InventoryTable() {
                           >
                             <Pencil className="h-4 w-4 text-blue-500" />
                           </Button>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handleDelete(item.id)}
-                          >
-                            <Trash2 className="h-4 w-4 text-red-500" />
-                          </Button>
+                          {item.id && (
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              <Trash2 className="h-4 w-4 text-red-500" />
+                            </Button>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
