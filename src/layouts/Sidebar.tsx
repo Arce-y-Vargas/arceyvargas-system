@@ -274,10 +274,14 @@ export function DashboardSidebar() {
 
   const handleLogout = async () => {
     try {
-      await auth.signOut();
+      // Redireccionar inmediatamente
       window.location.href = "/";
+      // Cerrar sesión en segundo plano
+      await auth.signOut();
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
+      // Asegurar redirección aún si hay error
+      window.location.href = "/";
     }
   };
 
