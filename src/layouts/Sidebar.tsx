@@ -79,6 +79,8 @@ const accessByRole = {
     "accounting",
     "reports",
     "vacations",
+    "overtime-request",
+    "overtime-management",
   ],
   "admin-financial-manager": [
     "dashboard",
@@ -86,6 +88,7 @@ const accessByRole = {
     "accounting",
     "reports",
     "vacations",
+    "overtime-request",
   ],
   "operations-manager": [
     "dashboard",
@@ -93,11 +96,13 @@ const accessByRole = {
     "employees",
     "reports",
     "vacations",
+    "overtime-request",
+    "overtime-management",
   ],
-  "plant-manager": ["dashboard", "inventory", "employees", "vacations"],
-  "admin-assistant": ["dashboard", "employees", "vacations"],
-  "warehouse-staff": ["dashboard", "inventory", "vacations"],
-  operators: ["dashboard", "vacations"],
+  "plant-manager": ["dashboard", "inventory", "employees", "vacations", "overtime-request", "overtime-management"],
+  "admin-assistant": ["dashboard", "employees", "vacations", "overtime-request"],
+  "warehouse-staff": ["dashboard", "inventory", "vacations", "overtime-request"],
+  operators: ["dashboard", "vacations", "overtime-request"],
 };
 
 const navigationCategories = [
@@ -118,8 +123,15 @@ const navigationCategories = [
         subItems: [
           { path: "/dashboard/employees", label: "Lista de Empleados" },
           { path: "/dashboard/employees/horas-extra", label: "Horas Extras" },
+          { path: "/dashboard/employees/overtime-management", label: "Gestión Horas Extra" },
           { path: "/dashboard/employees/vacations", label: "Vacaciones" },
         ],
+      },
+      {
+        path: "/dashboard/employees/overtime-request",
+        label: "Registrar Horas Extra",
+        icon: "Clock",
+        key: "overtime-request",
       },
       {
         path: "/dashboard/vacations",

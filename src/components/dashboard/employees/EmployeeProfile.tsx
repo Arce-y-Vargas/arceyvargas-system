@@ -48,10 +48,8 @@ export default function EmployeeProfile() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log("🔥 Usuario autenticado:", user);
-        setUser(user);
         await fetchEmployeeData(user.uid);
       } else {
-        setUser(null);
         setEmployee(null);
         setLoading(false);
       }
