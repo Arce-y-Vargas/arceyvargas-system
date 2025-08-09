@@ -1,5 +1,9 @@
 import '@testing-library/jest-dom'
 
+// Polyfills para Node.js en Jest
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
   useRouter: () => ({

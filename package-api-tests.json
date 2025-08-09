@@ -1,0 +1,51 @@
+{
+  "name": "api-crud-tests",
+  "version": "1.0.0",
+  "description": "Sistema de pruebas automáticas para API CRUD con Jest y Supertest",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "NODE_ENV=test jest --config jest.config.api.js",
+    "test:watch": "NODE_ENV=test jest --config jest.config.api.js --watch",
+    "test:coverage": "NODE_ENV=test jest --config jest.config.api.js --coverage",
+    "test:verbose": "NODE_ENV=test jest --config jest.config.api.js --verbose",
+    "test:silent": "NODE_ENV=test jest --config jest.config.api.js --silent",
+    "test:api": "NODE_ENV=test jest api.test.js",
+    "test:debug": "NODE_ENV=test node --inspect-brk node_modules/.bin/jest --config jest.config.api.js --runInBand"
+  },
+  "keywords": [
+    "api",
+    "crud",
+    "testing",
+    "jest",
+    "supertest",
+    "nodejs",
+    "express"
+  ],
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "body-parser": "^1.20.2",
+    "express-validator": "^7.0.1",
+    "express-rate-limit": "^6.8.1",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3",
+    "nodemon": "^3.0.1",
+    "@types/jest": "^29.5.3",
+    "@types/supertest": "^2.0.12"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
