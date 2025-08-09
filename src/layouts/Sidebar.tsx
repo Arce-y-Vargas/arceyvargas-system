@@ -81,6 +81,7 @@ const accessByRole = {
     "vacations",
     "overtime-request",
     "overtime-management",
+    "hr-requests",
   ],
   "admin-financial-manager": [
     "dashboard",
@@ -102,6 +103,14 @@ const accessByRole = {
   "plant-manager": ["dashboard", "inventory", "employees", "vacations", "overtime-request", "overtime-management"],
   "admin-assistant": ["dashboard", "employees", "vacations", "overtime-request"],
   "warehouse-staff": ["dashboard", "inventory", "vacations", "overtime-request"],
+  "rrhh": [
+    "dashboard",
+    "employees",
+    "vacations",
+    "overtime-request",
+    "overtime-management",
+    "hr-requests",
+  ],
   operators: ["dashboard", "vacations", "overtime-request"],
 };
 
@@ -132,6 +141,12 @@ const navigationCategories = [
         label: "Registrar Horas Extra",
         icon: "Clock",
         key: "overtime-request",
+      },
+      {
+        path: "/dashboard/hr-requests",
+        label: "Solicitudes RRHH",
+        icon: "FileText",
+        key: "hr-requests",
       },
       {
         path: "/dashboard/vacations",
@@ -190,6 +205,7 @@ const positionTranslations: Record<string, string> = {
   "plant-manager": "Gerente de Planta",
   "admin-assistant": "Asistente Administrativo",
   "warehouse-staff": "Personal de Almacén",
+  "rrhh": "Recursos Humanos",
   operators: "Operador",
 };
 

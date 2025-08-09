@@ -21,6 +21,9 @@ interface Empleado {
 }
 
 export const addEmployee = async (empleado: Empleado, password: string) => {
+  console.log('addEmployee called with:', empleado);
+  console.log('Password provided:', password ? 'Yes' : 'No');
+  
   const employeeRef = doc(db, "employees", empleado.cedula);
 
   const existingDoc = await getDoc(employeeRef);
@@ -55,6 +58,7 @@ export const addEmployee = async (empleado: Empleado, password: string) => {
       cedula: empleado.cedula,
     });
 
+    console.log('Employee and user created successfully:', empleado.cedula);
     return empleado;
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'code' in error && error.code === "auth/email-already-in-use") {

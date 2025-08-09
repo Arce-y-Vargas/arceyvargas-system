@@ -5,6 +5,8 @@ import type React from "react";
 import { useState } from "react";
 import { addEmployee, getEmployees } from "@/lib/employees";
 import { sanitizeInput, sanitizeNumber } from "@/lib/sanitize";
+import { submitHRRequest } from "@/lib/hrRequests";
+import { useAuth } from "@/hooks/useAuth";
 import {
   Dialog,
   DialogContent,
@@ -37,6 +39,7 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
   onClose,
   onEmployeeAdded,
 }) => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     cedula: "",
     nombre: "",
@@ -126,26 +129,48 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
 
     setLoading(true);
     try {
-      await addEmployee(
-        {
-          ...formData,
-          salario: Number.parseFloat(formData.salario),
-        },
-        formData.password
-      );
+      const employeeData = {
+        ...formData,
+        salario: Number.parseFloat(formData.salario),
+      };
+      
+      await submitHRRequest({
+        type: 'add_employee',
+        requestedBy: user?.uid || '',
+        requestedByName: user?.displayName || user?.email || 'Usuario',
+        requestedByRole: 'admin', // Se podría obtener del contexto
+        title: `Agregar empleado: ${formData.nombre}`,
+        description: `Solicitud para agregar nuevo empleado con cédula ${formData.cedula}`,
+        proposedData: {
+          ...employeeData,
+          password: formData.password
+        }
+      });
+      
+      // Resetear formulario
+      setFormData({
+        cedula: "",
+        nombre: "",
+        posicion: "",
+        departamento: "",
+        fechaInicio: "",
+        salario: "",
+        password: "",
+        status: "Activo",
+      });
       
       toast({
-        title: "Éxito",
-        description: `Empleado ${formData.nombre} agregado correctamente.`,
+        title: "✅ Solicitud enviada correctamente",
+        description: `La solicitud para agregar al empleado ${formData.nombre} ha sido enviada para aprobación de Gerencia General y RRHH.`,
       });
       
       onEmployeeAdded();
       onClose();
     } catch (error) {
-      console.error("Error al agregar empleado:", error);
+      console.error("Error al enviar solicitud:", error);
       toast({
         title: "Error",
-        description: "Ocurrió un error al guardar el empleado.",
+        description: "Ocurrió un error al enviar la solicitud.",
         variant: "destructive",
       });
     } finally {
@@ -242,6 +267,9 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
                 <SelectItem value="admin-assistant">
                   Asistente Administrativo
                 </SelectItem>
+                <SelectItem value="rrhh">
+                  Recursos Humanos
+                </SelectItem>
                 <SelectItem value="warehouse-staff">
                   Personal de Almacén
                 </SelectItem>
@@ -271,6 +299,7 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
                 <SelectItem value="Operaciones">Operaciones</SelectItem>
                 <SelectItem value="Producción">Producción</SelectItem>
                 <SelectItem value="Finanzas">Finanzas</SelectItem>
+                <SelectItem value="RRHH">RRHH</SelectItem>
                 <SelectItem value="Taller">Taller</SelectItem>
                 <SelectItem value="Almacén">Almacén</SelectItem>
                 <SelectItem value="Mecánica">Mecánica</SelectItem>
@@ -349,7 +378,7 @@ const EmployeesModal: React.FC<EmployeesModalProps> = ({
               disabled={loading}
               className="w-full sm:w-auto"
             >
-              {loading ? "Guardando..." : "Agregar Empleado"}
+              {loading ? "Enviando solicitud..." : "Enviar solicitud"}
             </Button>
           </DialogFooter>
         </form>

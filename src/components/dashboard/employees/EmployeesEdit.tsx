@@ -4,6 +4,9 @@ import type React from "react";
 
 import { useEffect, useState } from "react";
 import { updateEmployee } from "@/lib/employees";
+import { submitHRRequest } from "@/lib/hrRequests";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { X } from "lucide-react";
 import {
   Dialog,
@@ -48,6 +51,8 @@ const EmployeesEdit: React.FC<EmployeesEditProps> = ({
   onEmployeeUpdated,
   employee,
 }) => {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [formData, setFormData] = useState<Employee>({
     id: "",
     cedula: "",
@@ -93,14 +98,38 @@ const EmployeesEdit: React.FC<EmployeesEditProps> = ({
 
     setLoading(true);
     try {
-      await updateEmployee({
+      const updatedData = {
         ...formData,
         salario: Number(formData.salario),
+      };
+      
+      await submitHRRequest({
+        type: 'edit_employee',
+        requestedBy: user?.uid || '',
+        requestedByName: user?.displayName || user?.email || 'Usuario',
+        requestedByRole: 'admin', // Se podría obtener del contexto
+        title: `Editar empleado: ${formData.nombre}`,
+        description: `Solicitud para editar datos del empleado con cédula ${formData.cedula}`,
+        currentData: employee,
+        proposedData: updatedData,
+        targetEmployeeId: formData.cedula,
+        targetEmployeeName: formData.nombre
       });
+      
+      toast({
+        title: "✅ Solicitud enviada correctamente",
+        description: `La solicitud para editar al empleado ${formData.nombre} ha sido enviada para aprobación de Gerencia General y RRHH.`,
+      });
+      
       onEmployeeUpdated();
       onClose();
     } catch (error) {
-      console.error("Error al actualizar empleado:", error);
+      console.error("Error al enviar solicitud:", error);
+      toast({
+        title: "Error",
+        description: "Ocurrió un error al enviar la solicitud.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -179,6 +208,9 @@ const EmployeesEdit: React.FC<EmployeesEditProps> = ({
                 <SelectItem value="admin-assistant">
                   Asistente Administrativo
                 </SelectItem>
+                <SelectItem value="rrhh">
+                  Recursos Humanos
+                </SelectItem>
                 <SelectItem value="warehouse-staff">
                   Personal de Almacén
                 </SelectItem>
@@ -209,6 +241,7 @@ const EmployeesEdit: React.FC<EmployeesEditProps> = ({
                 <SelectItem value="Operaciones">Operaciones</SelectItem>
                 <SelectItem value="Producción">Producción</SelectItem>
                 <SelectItem value="Finanzas">Finanzas</SelectItem>
+                <SelectItem value="RRHH">RRHH</SelectItem>
                 <SelectItem value="Taller">Taller</SelectItem>
                 <SelectItem value="Almacén">Almacén</SelectItem>
                 <SelectItem value="Mecánica">Mecánica</SelectItem>
@@ -219,20 +252,39 @@ const EmployeesEdit: React.FC<EmployeesEditProps> = ({
             )}
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="fechaInicio" className="text-sm font-medium">
-              Fecha de Inicio
-            </Label>
-            <Input
-              id="fechaInicio"
-              type="date"
-              value={formData.fechaInicio}
-              onChange={handleChange}
-              className="h-10"
-            />
-            {errores.fechaInicio && (
-              <p className="text-red-500 text-sm">{errores.fechaInicio}</p>
-            )}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="fechaInicio" className="text-sm font-medium">
+                Fecha de Inicio
+              </Label>
+              <Input
+                id="fechaInicio"
+                type="date"
+                value={formData.fechaInicio}
+                onChange={handleChange}
+                className="h-10"
+              />
+              {errores.fechaInicio && (
+                <p className="text-red-500 text-sm">{errores.fechaInicio}</p>
+              )}
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="salario" className="text-sm font-medium">
+                Salario
+              </Label>
+              <Input
+                id="salario"
+                type="number"
+                value={formData.salario}
+                onChange={handleChange}
+                placeholder="0.00"
+                className="h-10"
+              />
+              {errores.salario && (
+                <p className="text-red-500 text-sm">{errores.salario}</p>
+              )}
+            </div>
           </div>
 
           <div className="grid gap-2">
@@ -269,7 +321,7 @@ const EmployeesEdit: React.FC<EmployeesEditProps> = ({
               disabled={loading}
               className="w-full sm:w-auto"
             >
-              {loading ? "Guardando..." : "Actualizar Empleado"}
+              {loading ? "Enviando solicitud..." : "Enviar solicitud"}
             </Button>
           </DialogFooter>
         </form>
